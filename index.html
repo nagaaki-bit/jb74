@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUZUKI Jimny JB74 保養手冊 ｜ 工單分析與里程零件採購總表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d2233;
+    --bg-deep:#081722;
+    --panel:#123449;
+    --panel-2:#0f2c3d;
+    --line:#2c5c78;
+    --line-soft:#1d4258;
+    --text:#e7eff4;
+    --muted:#8fb0c4;
+    --muted-2:#6690a8;
+    --amber:#e8a33d;
+    --amber-dim:#4a3a1e;
+    --red:#e15b5b;
+    --red-dim:#4a2323;
+    --green:#4fbf9a;
+    --green-dim:#1c3d35;
+    --yellow:#e8c93d;
+    --yellow-dim:#463d1a;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #163d55 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, #123249 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .grid-overlay{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 42px 42px;
+    opacity:0.18;
+  }
+  .wrap{position:relative; z-index:1; max-width:960px; margin:0 auto; padding:0 20px 90px;}
+
+  header.hero{
+    padding:48px 0 28px;
+    border-bottom:1px dashed var(--line);
+    margin-bottom:8px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--amber);
+    font-size:12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--amber); display:inline-block;}
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:clamp(28px, 5.6vw, 48px);
+    line-height:1.05;
+    margin:14px 0 6px;
+  }
+  h1 span{color:var(--amber);}
+  .subhead{color:var(--muted); font-size:15px; max-width:60ch; line-height:1.6; margin-bottom:22px;}
+  .spec-plate{
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .spec-plate div{padding:12px 14px; border-right:1px solid var(--line);}
+  .spec-plate div:last-child{border-right:none;}
+  .spec-plate .k{display:block; font-size:10px; color:var(--muted-2); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px;}
+  .spec-plate .v{font-size:14px; color:var(--text);}
+
+  nav.jumpbar{
+    position:sticky; top:0; z-index:10;
+    background:rgba(8,23,34,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+    margin:0 -20px 30px;
+    padding:0 20px;
+  }
+  .jumpbar-inner{max-width:960px; margin:0 auto; display:flex; gap:4px; overflow-x:auto; padding:10px 0; scrollbar-width:none;}
+  .jumpbar-inner::-webkit-scrollbar{display:none;}
+  .jumpbar a{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; white-space:nowrap;
+    color:var(--muted); text-decoration:none; padding:6px 12px;
+    border:1px solid transparent; border-radius:20px; transition:all .15s ease;
+  }
+  .jumpbar a:hover{color:var(--text); border-color:var(--line);}
+  .jumpbar a.active{color:var(--bg-deep); background:var(--amber); border-color:var(--amber); font-weight:600;}
+
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px;}
+  .sec-num{
+    font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:22px;
+    background:var(--bg-deep); border:1px solid var(--line); border-radius:4px;
+    padding:5px 11px; color:var(--amber);
+  }
+  .sec-title{font-family:'Oswald', sans-serif; text-transform:uppercase; font-size:20px; letter-spacing:0.02em;}
+  .sec-sub{font-size:12px; color:var(--muted-2); font-family:'IBM Plex Mono', monospace;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  section hr{border:none; border-top:1px dashed var(--line-soft); margin:14px 0 22px;}
+
+  .callout{border:1px solid var(--line); background:linear-gradient(180deg, var(--panel), var(--panel-2)); border-radius:8px; padding:22px 24px; margin-bottom:44px;}
+  .callout h2{font-family:'Oswald', sans-serif; text-transform:uppercase; font-size:15px; letter-spacing:0.08em; color:var(--amber); margin:0 0 14px; display:flex; align-items:center; gap:8px;}
+  .callout ul{margin:0; padding:0; list-style:none;}
+  .callout li{display:flex; gap:12px; padding:10px 0; border-top:1px dashed var(--line-soft); font-size:14px; line-height:1.6; color:var(--muted);}
+  .callout li:first-child{border-top:none;}
+  .tag{flex:none; font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:600; padding:3px 8px; border-radius:4px; height:fit-content; text-transform:uppercase; letter-spacing:0.04em;}
+  .tag.ok{background:var(--green-dim); color:var(--green);}
+  .tag.warn{background:var(--red-dim); color:var(--red);}
+  .tag.info{background:var(--amber-dim); color:var(--amber);}
+  .callout li b{color:var(--text); font-weight:600;}
+
+  .ticket{
+    border:1px solid var(--line); border-radius:8px; background:var(--panel-2);
+    position:relative; overflow:hidden;
+  }
+  .ticket-top{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 22px; border-bottom:1px dashed var(--line);
+    background:var(--panel);
+  }
+  .ticket-top .lbl{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted-2); letter-spacing:0.08em; text-transform:uppercase;}
+  .ticket-top .num{font-family:'IBM Plex Mono', monospace; font-size:16px; color:var(--amber); font-weight:600;}
+  .ticket-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:0;}
+  .ticket-grid .cell{padding:16px 22px; border-right:1px dashed var(--line-soft); border-bottom:1px dashed var(--line-soft);}
+  .ticket-grid .cell:nth-child(3n){border-right:none;}
+  .ticket-grid .cell .k{display:block; font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--muted-2); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;}
+  .ticket-grid .cell .v{font-size:14.5px; color:var(--text); font-weight:500;}
+  .ticket-grid .cell .v.mono{font-family:'IBM Plex Mono', monospace; font-size:13px;}
+
+  .tbl-wrap{border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; background:var(--panel-2);}
+  table.compare{width:100%; border-collapse:collapse; font-size:13.5px;}
+  table.compare thead th{
+    text-align:left; font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-2);
+    background:var(--panel); padding:12px 14px; border-bottom:1px solid var(--line);
+    position:sticky; top:52px;
+  }
+  table.compare td{padding:12px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  table.compare tbody tr:last-child td{border-bottom:none;}
+  table.compare tbody tr:hover{background:rgba(232,163,61,0.05);}
+  .it-name{font-weight:600; color:var(--text);}
+  .it-oe{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted-2); margin-top:2px;}
+  .num-cell{font-family:'IBM Plex Mono', monospace; text-align:right; white-space:nowrap;}
+  .num-cell.strike{color:var(--muted-2); text-decoration:line-through; text-decoration-color:var(--red); }
+  .num-cell.save{color:var(--green); font-weight:600;}
+  .badge{font-size:10.5px; font-family:'IBM Plex Mono', monospace; padding:3px 8px; border-radius:20px; border:1px solid; white-space:nowrap;}
+  .badge.easy{color:var(--green); border-color:var(--green-dim); background:var(--green-dim);}
+  .badge.mid{color:var(--yellow); border-color:var(--yellow-dim); background:var(--yellow-dim);}
+  .badge.pro{color:var(--red); border-color:var(--red-dim); background:var(--red-dim);}
+  .badge.labor{color:var(--muted); border-color:var(--line-soft); background:var(--bg-deep);}
+  .link-icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:5px; border:1px solid var(--line);
+    color:var(--muted); text-decoration:none; transition:all .15s ease;
+  }
+  .link-icon:hover{border-color:var(--amber); color:var(--amber);}
+  .link-icon.verified{border-color:var(--green-dim); color:var(--green);}
+  tfoot td{
+    padding:14px; font-family:'IBM Plex Mono', monospace; font-weight:700;
+    border-top:2px solid var(--line); background:var(--panel);
+  }
+  .scroll-x{overflow-x:auto;}
+
+  .save-card{border:1px solid var(--line-soft); background:var(--panel-2); border-radius:8px; padding:20px 22px; margin-bottom:14px;}
+  .save-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; flex-wrap:wrap; gap:8px;}
+  .save-title{font-weight:600; font-size:15px;}
+  .save-title .sub{color:var(--muted-2); font-size:12px; font-family:'IBM Plex Mono', monospace; margin-left:8px;}
+  .save-pct{font-family:'Oswald', sans-serif; font-size:22px; color:var(--green);}
+  .bar-track{height:26px; border-radius:5px; background:var(--bg-deep); border:1px solid var(--line-soft); overflow:hidden; position:relative;}
+  .bar-fill{height:100%; background:linear-gradient(90deg, #3a7d94, #4fbf9a); display:flex; align-items:center; justify-content:flex-end; padding-right:8px;}
+  .bar-fill span{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--bg-deep); font-weight:700;}
+  .save-nums{display:flex; justify-content:space-between; margin-top:8px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted);}
+  .save-nums b{color:var(--text);}
+
+  .odometer{font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:26px; letter-spacing:0.03em; background:var(--bg-deep); border:1px solid var(--line); border-radius:4px; padding:6px 12px; color:var(--amber);}
+  .part-card{border:1px solid var(--line-soft); background:var(--panel-2); border-radius:8px; padding:20px 22px; margin-bottom:14px; display:grid; grid-template-columns:1fr auto; gap:16px 20px;}
+  .part-name{font-size:17px; font-weight:600; color:var(--text);}
+  .part-spec{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.7;}
+  .part-spec .oe{color:var(--amber);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .price{text-align:right;}
+  .price .amt{font-family:'Oswald', sans-serif; font-size:22px; color:var(--text); white-space:nowrap;}
+  .price .qty{font-size:11px; color:var(--muted-2); font-family:'IBM Plex Mono', monospace;}
+  .links{grid-column:1 / -1; display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; padding-top:14px; border-top:1px solid var(--line-soft);}
+  .btn{font-family:'IBM Plex Mono', monospace; font-size:12px; text-decoration:none; padding:8px 14px; border-radius:5px; border:1px solid var(--line); color:var(--text); display:inline-flex; align-items:center; gap:7px; transition:all .15s ease;}
+  .btn:hover{border-color:var(--amber); color:var(--amber); transform:translateY(-1px);}
+  .btn.verified{border-color:var(--green-dim);}
+  .btn .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
+  .btn.verified .dot{background:var(--green);}
+  .note{grid-column:1/-1; font-size:12.5px; color:var(--muted); line-height:1.6; background:var(--bg-deep); border-left:3px solid var(--amber); padding:9px 12px; border-radius:0 4px 4px 0;}
+
+  footer{margin-top:50px; padding-top:26px; border-top:1px dashed var(--line); color:var(--muted-2); font-size:12px; font-family:'IBM Plex Mono', monospace; line-height:1.8;}
+
+  @media (max-width:640px){
+    .spec-plate{grid-template-columns:repeat(2,1fr);}
+    .spec-plate div:nth-child(2){border-right:none;}
+    .ticket-grid{grid-template-columns:1fr 1fr;}
+    .ticket-grid .cell:nth-child(2n){border-right:none;}
+    .ticket-grid .cell:nth-child(3n){border-right:1px dashed var(--line-soft);}
+    .part-card{grid-template-columns:1fr;}
+    .price{text-align:left;}
+    table.compare{font-size:12px;}
+    table.compare thead th, table.compare td{padding:9px 8px;}
+  }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="jumpbar">
+  <div class="jumpbar-inner" id="jumpbar">
+    <a href="#order">工單資料</a>
+    <a href="#compare">費用比較</a>
+    <a href="#savings">省錢分析</a>
+    <a href="#i10k">10,000 km</a>
+    <a href="#i20k">20,000 km</a>
+    <a href="#i30k">30,000 km</a>
+    <a href="#i40k">40,000 km</a>
+    <a href="#i80k">80,000 km</a>
+    <a href="#i100k">100,000 km</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Maintenance Reference Sheet</div>
+    <h1>Jimny JB74<br><span>工單分析 × 保養里程採購總表</span></h1>
+    <p class="subhead">結合 12 萬公里實際進廠工單，比較原廠代購與網路自購價差，並附上完整里程保養零件的採購連結。</p>
+    <div class="spec-plate">
+      <div><span class="k">車型</span><span class="v">SUZUKI Jimny JB74</span></div>
+      <div><span class="k">排氣量</span><span class="v">1.5L 直列四缸</span></div>
+      <div><span class="k">機油規格</span><span class="v">ECSTAR 0W-16</span></div>
+      <div><span class="k">更新日期</span><span class="v">2026.07</span></div>
+    </div>
+  </header>
+
+  <section id="order">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">本次進廠工單</span></div>
+    <div class="sec-sub">B260400195 ／ 121,513 KM ／ 2026-04-16</div>
+    <hr>
+    <div class="ticket">
+      <div class="ticket-top">
+        <span class="lbl">Repair Order</span>
+        <span class="num">B260400195</span>
+      </div>
+      <div class="ticket-grid">
+        <div class="cell"><span class="k">服務廠區</span><span class="v">凱騰鈴木汽車－北投廠</span></div>
+        <div class="cell"><span class="k">廠區地址</span><span class="v mono">112台北市北投區承德路六段337號</span></div>
+        <div class="cell"><span class="k">開單時間</span><span class="v mono">2026-04-16 15:18</span></div>
+
+        <div class="cell"><span class="k">車主姓名</span><span class="v">蕭永明</span></div>
+        <div class="cell"><span class="k">牌照號碼</span><span class="v mono">BFT-2212</span></div>
+        <div class="cell"><span class="k">行動電話</span><span class="v mono">0918-720-170</span></div>
+
+        <div class="cell"><span class="k">車型 / 引擎</span><span class="v mono">JIMNY / K15B-1096417</span></div>
+        <div class="cell"><span class="k">車身 / VIN</span><span class="v mono">JSAGJB74V00162198</span></div>
+        <div class="cell"><span class="k">進廠里程</span><span class="v mono">121,513 KM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">工單明細與費用比較</span></div>
+    <div class="sec-sub">原廠實付 vs 網路預估・單位 NT$</div>
+    <hr>
+    <div class="tbl-wrap scroll-x">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>難易度</th>
+            <th style="text-align:right;">原廠小計</th>
+            <th style="text-align:right;">網路預估</th>
+            <th style="text-align:right;">可省</th>
+            <th>連結</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="it-name">機油芯</div><div class="it-oe">16510-82703-000</div></td>
+            <td><span class="badge mid">🟡 中等</span></td>
+            <td class="num-cell strike">$411</td>
+            <td class="num-cell">$220</td>
+            <td class="num-cell save">$191</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=16510-82703" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">油底殼放油塞墊片</div><div class="it-oe">09168-14015-000</div></td>
+            <td><span class="badge mid">🟡 中等</span></td>
+            <td class="num-cell strike">$47</td>
+            <td class="num-cell">$20</td>
+            <td class="num-cell save">$27</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=09168-14015" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">ECSTAR全合成機油 0W16 ×4</div><div class="it-oe">99000T21D40-036</div></td>
+            <td><span class="badge mid">🟡 中等</span></td>
+            <td class="num-cell strike">$2,472</td>
+            <td class="num-cell">$1,400</td>
+            <td class="num-cell save">$1,072</td>
+            <td><a class="link-icon verified" href="https://shopee.tw/search?keyword=SUZUKI+0W16+ECSTAR" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">高分子引擎機油添加劑</div><div class="it-oe">99200TGTOOL-220</div></td>
+            <td><span class="badge easy">🟢 簡單</span></td>
+            <td class="num-cell strike">$284</td>
+            <td class="num-cell">$200</td>
+            <td class="num-cell save">$84</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=SUZUKI+%E6%A9%9F%E6%B2%B9%E6%B3%BB%E5%8A%A0%E5%8A%99" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">汽油管路拔水劑</div><div class="it-oe">99300TWR001-000</div></td>
+            <td><span class="badge easy">🟢 簡單</span></td>
+            <td class="num-cell strike">$283</td>
+            <td class="num-cell">$200</td>
+            <td class="num-cell save">$83</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=99300TWR001-000" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">濃縮型擋風玻璃清潔液</div><div class="it-oe">99100TWC001-000</div></td>
+            <td><span class="badge easy">🟢 簡單</span></td>
+            <td class="num-cell strike">$71</td>
+            <td class="num-cell">$50</td>
+            <td class="num-cell save">$21</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=SUZUKI+%E9%9B%A8%E5%88%B7%E7%B2%BE" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">(K15B) TYPE I 空氣芯</div><div class="it-oe">13780-78R00-000</div></td>
+            <td><span class="badge easy">🟢 簡單</span></td>
+            <td class="num-cell strike">$912</td>
+            <td class="num-cell">$500</td>
+            <td class="num-cell save">$412</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=13780-78R00" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">ECSTAR自動變速箱油 ATF3317 ×2</div><div class="it-oe">99000-22800-000</div></td>
+            <td><span class="badge pro">🔴 專業</span></td>
+            <td class="num-cell strike">$1,368</td>
+            <td class="num-cell">$800</td>
+            <td class="num-cell save">$568</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=ECSTAR+ATF+3317" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">自排油底殼放油塞</div><div class="it-oe">09168-12009-000</div></td>
+            <td><span class="badge pro">🔴 專業</span></td>
+            <td class="num-cell strike">$93</td>
+            <td class="num-cell">$40</td>
+            <td class="num-cell save">$53</td>
+            <td><a class="link-icon" href="https://shopee.tw/search?keyword=09168-12009" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">CCI超長效水箱精(藍) ×2</div><div class="it-oe">99000199032-20X</div></td>
+            <td><span class="badge pro">🔴 專業</span></td>
+            <td class="num-cell strike">$1,094</td>
+            <td class="num-cell">$700</td>
+            <td class="num-cell save">$394</td>
+            <td><a class="link-icon verified" href="https://feebee.com.tw/bid/SUZUKI%20%E6%B0%B4%E7%AE%B1%E7%B2%BE/" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">ECSTAR日製煞車油 DOT4 ×2</div><div class="it-oe">99000-23140-D04</div></td>
+            <td><span class="badge pro">🔴 專業</span></td>
+            <td class="num-cell strike">$836</td>
+            <td class="num-cell">$480</td>
+            <td class="num-cell save">$356</td>
+            <td><a class="link-icon verified" href="https://feebee.com.tw/bid/suzuki%E7%85%9E%E8%BB%8A%E6%B2%B9/" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr>
+            <td><div class="it-name">12萬公里保養工資</div><div class="it-oe">SUZUKI120</div></td>
+            <td><span class="badge labor">專業原廠技術</span></td>
+            <td class="num-cell">$1,900</td>
+            <td class="num-cell">$1,900</td>
+            <td class="num-cell">—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><div class="it-name">洗車服務手工</div><div class="it-oe">VT1IGE01</div></td>
+            <td><span class="badge labor">原廠免費贈送</span></td>
+            <td class="num-cell">$0</td>
+            <td class="num-cell">$0</td>
+            <td class="num-cell">—</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>合計</td>
+            <td></td>
+            <td class="num-cell">$9,771</td>
+            <td class="num-cell">$6,510</td>
+            <td class="num-cell save">$3,261</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="note" style="margin-top:14px; display:block;">🟢 綠色圓點連結為已核實可用通路（PChome／飛比比價）。高風險項目（機油、變速箱油）若自行網購，務必慎防仿品、選有信譽的商家。</div>
+  </section>
+
+  <section id="savings">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">省錢效益分類試算</span></div>
+    <div class="sec-sub">依 DIY 難易度分三類・柱狀比例以整張工單金額為基準</div>
+    <hr>
+
+    <div class="save-card">
+      <div class="save-head">
+        <div class="save-title">第一類：超簡單 DIY <span class="sub">空氣芯＋拔水劑＋雨刷精</span></div>
+        <div class="save-pct">省 40.8%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:59.2%"><span>網路 $750</span></div></div>
+      <div class="save-nums"><span>原廠 <b>$1,266</b></span><span>可省 <b>$516</b></span></div>
+    </div>
+
+    <div class="save-card">
+      <div class="save-head">
+        <div class="save-title">第二類：中等難度 <span class="sub">機油＋機油芯＋放油墊片</span></div>
+        <div class="save-pct">省 44.0%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:56.0%"><span>網路 $1,640</span></div></div>
+      <div class="save-nums"><span>原廠 <b>$2,930</b></span><span>可省 <b>$1,290</b></span></div>
+    </div>
+
+    <div class="save-card">
+      <div class="save-head">
+        <div class="save-title">第三類：高難度／專業項目 <span class="sub">變速箱油＋水箱精＋煞車油</span></div>
+        <div class="save-pct">省 39.6%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:60.4%; background:linear-gradient(90deg,#8a4a4a,#e15b5b);"><span>網路 $2,220</span></div></div>
+      <div class="save-nums"><span>原廠 <b>$3,675</b></span><span>可省 <b>$1,455</b></span></div>
+      <div class="note" style="margin-top:12px; display:block;">涉及安全與專用排氣設備，建議由原廠或專業廠代購施作，此類差價不建議完全自行 DIY。</div>
+    </div>
+
+    <div class="save-card" style="border-color:var(--amber); background:linear-gradient(180deg, var(--panel), var(--panel-2));">
+      <div class="save-head">
+        <div class="save-title">全部零配件（11項）<span class="sub">不含工資</span></div>
+        <div class="save-pct">省 41.4%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:58.6%"><span>網路 $4,610</span></div></div>
+      <div class="save-nums"><span>原廠 <b>$7,871</b></span><span>可省 <b>$3,261</b></span></div>
+    </div>
+
+    <div class="save-card" style="border-color:var(--line);">
+      <div class="save-head">
+        <div class="save-title">整張工單應收總額 <span class="sub">含技術工資 $1,900</span></div>
+        <div class="save-pct" style="color:var(--amber);">省 33.4%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:66.6%; background:linear-gradient(90deg,#3a7d94,#e8a33d);"><span>應付 $6,510</span></div></div>
+      <div class="save-nums"><span>原廠總額 <b>$9,771</b></span><span>可省 <b>$3,261</b></span></div>
+      <div class="note" style="margin-top:12px; display:block;">工資 $1,900 維持原廠專業服務不變，只有零件自備才能省下差額——性價比最佳的做法是自購零件、帶去原廠請師傅安裝。</div>
+    </div>
+  </section>
+
+  <div class="callout">
+    <h2>🔍 採購連結核對結果摘要</h2>
+    <ul>
+      <li><span class="tag warn">注意</span><div><b>蝦皮「賣場」型連結</b>為單一商品頁，賣家關店或商品下架就會失效，已改用「料號搜尋」連結取代，長期較穩定。</div></li>
+      <li><span class="tag ok">已核實</span><div><b>飛比比價（feebee）</b> 的煞車油、水箱精搜尋連結已實際開啟確認可用，能同時比較蝦皮／東森／森森等多通路價格。</div></li>
+      <li><span class="tag info">建議</span><div>機油、ATF、煞車油、水箱精等<b>攸關安全的消耗液</b>，建議額外參考 PChome 24h、ETMall 東森、森森購物等有實體公司背書的通路，或蝦皮商城等級賣家「車百購 CARPARTGO」，降低買到假油風險。</div></li>
+      <li><span class="tag info">建議</span><div>機油芯料號 <b>16510-82703</b> 已核對為 Suzuki 通用真實料號（Swift／Baleno／Vitara／Jimny 共用）。</div></li>
+    </ul>
+  </div>
+
+  <div class="sec-head" style="margin-bottom:2px;"><span class="sec-num">04</span><span class="sec-title">完整里程保養對照表</span></div>
+  <div class="sec-sub" style="margin-bottom:22px;">依建議保養里程整理全車保養項目與網購連結</div>
+
+  <section class="interval" id="i10k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">010000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">全合成引擎機油　ECSTAR 0W-16</div>
+        <div class="part-spec"><span class="oe">99000T21D40-036</span>　用量 4.0 L</div>
+        <div class="badges"><span class="badge mid">🟡 中等・需工具/接油盤</span></div>
+      </div>
+      <div class="price"><div class="amt">$1,400</div><div class="qty">約4罐</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=SUZUKI+0W16+ECSTAR" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+        <a class="btn verified" href="https://24h.pchome.com.tw/gsearch/?q=SUZUKI%20ECSTAR%200W16" target="_blank" rel="noopener"><span class="dot"></span>PChome 24h（已核實有貨）</a>
+        <a class="btn verified" href="https://www.etmall.com.tw/Search_Result?keyword=SUZUKI+ECSTAR+0W16" target="_blank" rel="noopener"><span class="dot"></span>ETMall 東森購物</a>
+      </div>
+      <div class="note">建議在蝦皮上優先選「車百購 CARPARTGO」等商城等級賣家，或改用旁邊已核實的通路，降低買到假油風險。</div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">機油濾清器（機油芯）</div>
+        <div class="part-spec"><span class="oe">16510-82703-000</span>　1 個・Swift/Baleno/Vitara/Jimny 共用料號</div>
+        <div class="badges"><span class="badge mid">🟡 中等・需機油芯扳手</span></div>
+      </div>
+      <div class="price"><div class="amt">$220</div><div class="qty">1 個</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=16510-82703" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋料號</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">放油塞螺絲墊片</div>
+        <div class="part-spec"><span class="oe">09168-14015-000</span>　規格 14×20×1.5・1 片</div>
+        <div class="badges"><span class="badge mid">🟡 換機油順便更換</span></div>
+      </div>
+      <div class="price"><div class="amt">$20</div><div class="qty">1 片</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=09168-14015" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋料號</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">高分子機油添加劑（補充用）</div>
+        <div class="part-spec"><span class="oe">99200TGTOOL-220</span>　220ml</div>
+        <div class="badges"><span class="badge easy">🟢 超簡單・隨機油倒入</span></div>
+      </div>
+      <div class="price"><div class="amt">$200</div><div class="qty">1 罐</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=SUZUKI+%E6%A9%9F%E6%B2%B9%E6%B3%BB%E5%8A%A0%E5%8A%91" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">擋風玻璃清潔液（補充用）</div>
+        <div class="part-spec"><span class="oe">99100TWC001-000</span></div>
+        <div class="badges"><span class="badge easy">🟢 超簡單・倒入雨刷水箱</span></div>
+      </div>
+      <div class="price"><div class="amt">$50</div><div class="qty">1 罐</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=SUZUKI+%E9%9B%A8%E5%88%B7%E7%B2%BE" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="interval" id="i20k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">020000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每1〜2年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">空氣濾清器濾芯（空氣芯）</div>
+        <div class="part-spec"><span class="oe">13780-78R00-000</span>　1 個</div>
+        <div class="badges"><span class="badge easy">🟢 超簡單・扳開扣環更換</span></div>
+      </div>
+      <div class="price"><div class="amt">$500</div><div class="qty">1 個</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=13780-78R00" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋料號</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">汽油管路拔水劑（補充用）</div>
+        <div class="part-spec"><span class="oe">99300TWR001-000</span>　250ml</div>
+        <div class="badges"><span class="badge easy">🟢 超簡單・加油前倒入油箱</span></div>
+      </div>
+      <div class="price"><div class="amt">$200</div><div class="qty">1 罐</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=99300TWR001-000" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">冷氣空調濾網</div>
+        <div class="part-spec"><span class="oe">95860-78R00-000</span>　或同規副廠件・1 個</div>
+        <div class="badges"><span class="badge easy">🟢 超簡單・手套箱拆下更換</span></div>
+      </div>
+      <div class="price"><div class="amt">$150–350</div><div class="qty">1 個</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=Jimny+JB74+%E5%86%B7%E6%B0%A3%E6%BF%BE%E7%B6%B2" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="interval" id="i30k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">030000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每2年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">自動變速箱油（ATF）</div>
+        <div class="part-spec"><span class="oe">99000-22800-000</span>　ECSTAR ATF 3317・2.0 L</div>
+        <div class="badges"><span class="badge pro">🔴 建議原廠／專業廠代換</span></div>
+      </div>
+      <div class="price"><div class="amt">$800</div><div class="qty">約2罐</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=ECSTAR+ATF+3317" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+        <a class="btn verified" href="https://feebee.com.tw/s/ECSTAR%20ATF%203317/" target="_blank" rel="noopener"><span class="dot"></span>飛比比價（已核實）</a>
+      </div>
+      <div class="note">安全攸關油品，建議直接請保修廠代購施作，避免自行網購來源不明的變速箱油。</div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">自排油底殼放油塞墊片</div>
+        <div class="part-spec"><span class="oe">09168-12009-000</span>　1 片</div>
+        <div class="badges"><span class="badge pro">🔴 建議專業廠施作</span></div>
+      </div>
+      <div class="price"><div class="amt">$40</div><div class="qty">1 片</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=09168-12009" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋料號</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="interval" id="i40k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">040000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每2年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">前後差速器油（齒輪油）</div>
+        <div class="part-spec">75W-85 或 80W-90・GL-5 規範・前 1.3L ／ 後 1.5L</div>
+        <div class="badges"><span class="badge pro">🔴 建議專業廠・需灌油泵浦</span></div>
+      </div>
+      <div class="price"><div class="amt">$1,000–1,500</div><div class="qty">前後合計</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=Jimny+%E5%B7%AE%E9%80%9F%E5%99%A8%E6%B2%B9" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">加力箱油</div>
+        <div class="part-spec">75W-80・GL-4 規範・約 1.2 L</div>
+        <div class="badges"><span class="badge pro">🔴 建議專業廠施作</span></div>
+      </div>
+      <div class="price"><div class="amt">$500–800</div><div class="qty">約1.2L</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=75W80+%E5%8A%A0%E5%8A%9B%E7%AE%B1%E6%B2%B9" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">日製煞車油</div>
+        <div class="part-spec"><span class="oe">99000-23140-D04</span>　ECSTAR DOT 4・2.0 瓶（1.0L）</div>
+        <div class="badges"><span class="badge pro">🔴 建議專業廠・需管路排氣</span></div>
+      </div>
+      <div class="price"><div class="amt">$480</div><div class="qty">2罐</div></div>
+      <div class="links">
+        <a class="btn verified" href="https://feebee.com.tw/bid/suzuki%E7%85%9E%E8%BB%8A%E6%B2%B9/" target="_blank" rel="noopener"><span class="dot"></span>飛比比價（已核實有相符料號）</a>
+      </div>
+      <div class="note">已實際開啟確認：飛比比價可查到同料號「Suzuki DOT4原廠煞車油 99000-23140-D04」，價格約 $98–180。</div>
+    </div>
+  </section>
+
+  <section class="interval" id="i80k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">080000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每4年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">長效型長壽命水箱精</div>
+        <div class="part-spec"><span class="oe">99000199032-20X</span>　SUZUKI CCI 超長效藍色水箱精・2.0 瓶（約4.0L）</div>
+        <div class="badges"><span class="badge pro">🔴 建議專業廠・需系統排氣</span></div>
+      </div>
+      <div class="price"><div class="amt">$700</div><div class="qty">2罐</div></div>
+      <div class="links">
+        <a class="btn verified" href="https://feebee.com.tw/bid/SUZUKI%20%E6%B0%B4%E7%AE%B1%E7%B2%BE/" target="_blank" rel="noopener"><span class="dot"></span>飛比比價</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="interval" id="i100k">
+    <div class="interval-head" style="display:flex;align-items:baseline;gap:16px;margin-bottom:6px;">
+      <span class="odometer">100000</span><span class="interval-sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted-2);">KM ／ 每5年</span>
+    </div>
+    <hr>
+
+    <div class="part-card">
+      <div>
+        <div class="part-name">銥合金火星塞</div>
+        <div class="part-spec"><span class="oe">NGK LKR7ARX-P</span>　或原廠指定料號・4 支</div>
+        <div class="badges"><span class="badge mid">🟡 中等・需火星塞套筒/扭力扳手</span></div>
+      </div>
+      <div class="price"><div class="amt">$1,600–2,200</div><div class="qty">4支</div></div>
+      <div class="links">
+        <a class="btn" href="https://shopee.tw/search?keyword=LKR7ARX-P" target="_blank" rel="noopener"><span class="dot"></span>蝦皮搜尋</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    ※ 工單資料取自 2026-04-16 凱騰鈴木汽車北投廠實際進廠紀錄；連結核對於 2026.07 進行。<br>
+    ※ 蝦皮為動態網頁無法自動即時驗證上架狀態，「已核實」標記為透過飛比比價／PChome／ETMall 等靜態頁面實際開啟確認。<br>
+    ※ 價格僅供參考，實際請以下單當下頁面為準。安全攸關油品（煞車油、ATF、冷卻液）建議優先送專業廠施作。
+  </footer>
+
+</div>
+
+<script>
+  const links = Array.from(document.querySelectorAll('#jumpbar a'));
+  const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    let idx = 0;
+    const y = window.scrollY + 100;
+    sections.forEach((s, i) => { if(s && s.offsetTop <= y) idx = i; });
+    links.forEach((a,i) => a.classList.toggle('active', i===idx));
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+</script>
+
+</body>
+</html>
